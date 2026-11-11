@@ -1,0 +1,10 @@
+# Use a base image that includes MySQL
+FROM mysql:8.0
+
+# Environment variables for MySQL
+ENV MYSQL_ROOT_PASSWORD=admin
+ENV MYSQL_USER=admin
+ENV MYSQL_PASSWORD=admin
+
+# Expose port 3306 for MySQL
+EXPOSE 3306

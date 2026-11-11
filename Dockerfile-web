@@ -1,0 +1,33 @@
+# Use a base image that includes PHP and Apache
+FROM php:8.1-apache
+
+# copy files to docker container
+COPY ./web-files /var/www/html
+
+# Update package lists
+RUN apt-get update
+
+# Install Node.js
+RUN apt-get install -y nodejs
+
+#Install NPM
+RUN apt-get install -y npm
+
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+# Download PHP PDO for prepared statements
+RUN docker-php-ext-install pdo pdo_mysql
+
+# Install zip php extension
+RUN apt-get install -y \
+    libzip-dev \
+    zip \
+    && docker-php-ext-install zip \
+    && docker-php-ext-enable zip
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Expose port 80 for Apache
+EXPOSE 80
